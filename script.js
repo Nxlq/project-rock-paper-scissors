@@ -8,13 +8,12 @@ winner is declared */
 function getComputersChoice () {
     const choices = ['rock', 'paper', 'scissors'];
     const randomNumber = Math.floor(Math.random() * 3);
-    console.log(choices[randomNumber]);
     return choices[randomNumber];
 }
 
-getComputersChoice();
-getComputersChoice();
-getComputersChoice();
+// getComputersChoice();
+// getComputersChoice();
+// getComputersChoice();
 
 
 // function to recieve the player's choice
@@ -31,14 +30,29 @@ function getPlayersChoice () {
         }
         
         // once it is valid then return the players choice
-        console.log(`valid choice: ${playersInput}`);
         return playersInput;
     };
 
 
-getPlayersChoice();
+// getPlayersChoice();
 
+// Play a single round of rock paper scissors
+function playRound (computersChoice, playersChoice){
+    console.log(`computer's choice: ${computersChoice}`);
+    console.log(`your choice: ${playersChoice}`);
+    // if there is a tie
+    if (computersChoice === playersChoice) return console.log(`Draw 😬 you both chose ${computersChoice}`);
 
-// play game 
+    // if the player loses
+    if (playersChoice === 'rock' && computersChoice === 'paper' || 
+    playersChoice === 'paper' && computersChoice === 'scissors' || 
+    playersChoice === 'scissors' && computersChoice === 'rock') return console.log(`You lose 🤣🤣 ${computersChoice} beats ${playersChoice} 🤡🤡🤡🤡`);
+
+    // if the player wins
+    return console.log(`You win 🥳🥳 ${playersChoice} beats ${computersChoice}`);
+}
+
+playRound(getComputersChoice(), getPlayersChoice());
 // compare choices against one another 
 // declare winner 
+// play game
