@@ -66,8 +66,29 @@ function playRound (computersChoice, playersChoice){
 
 // playRound(getComputersChoice(), getPlayersChoice());
 
+// prompt player to choose between a best of 1, 3, 5, or 7
+function getBest0fWhat (){
+    let userInput;
+    let scoreToWin;
+
+    // get the prompt input and change type to number
+    userInput = +prompt('Would you like to play a best of 1, 3, 5, or 7?')
+
+    // if the input is not a valid choice then re-prompt
+    while (userInput !== 1 && userInput !== 3 && userInput !== 5 && userInput !== 7){
+        userInput = +prompt('please choose between a best of 1, 3, 5, or 7 😡')
+    };
+
+    // calculate the score to win
+    scoreToWin = Math.ceil(userInput / 2);
+    
+    console.log(`--- Best of ${userInput} ---`);
+    return scoreToWin;
+
+}
+
 // play a series of rounds
-function playGameSeries (){
+function playGameSeries (bestOfWhat){
     let playerScore = 0;
     let computerScore = 0;
 
