@@ -38,21 +38,62 @@ function getPlayersChoice () {
 
 // Play a single round of rock paper scissors
 function playRound (computersChoice, playersChoice){
+    // if there is no input
+    if(!computersChoice || !playersChoice) return;
+
     console.log(`computer's choice: ${computersChoice}`);
     console.log(`your choice: ${playersChoice}`);
+
     // if there is a tie
-    if (computersChoice === playersChoice) return console.log(`Draw 😬 you both chose ${computersChoice}`);
+    if (computersChoice === playersChoice){
+        console.log(`Draw 😬 you both chose ${computersChoice}`)
+        return;
+    };
 
     // if the player loses
     if (playersChoice === 'rock' && computersChoice === 'paper' || 
     playersChoice === 'paper' && computersChoice === 'scissors' || 
-    playersChoice === 'scissors' && computersChoice === 'rock') return console.log(`You lose 🤣🤣 ${computersChoice} beats ${playersChoice} 🤡🤡🤡🤡`);
+    playersChoice === 'scissors' && computersChoice === 'rock') {
+
+        console.log(`You lose 🤣🤣 ${computersChoice} beats ${playersChoice} 🤡🤡🤡🤡`)
+        return 'computerWins';
+    };
 
     // if the player wins
-    return console.log(`You win 🥳🥳 ${playersChoice} beats ${computersChoice}`);
+    console.log(`You win 🥳🥳 ${playersChoice} beats ${computersChoice}`);
+    return 'playerWins';
 }
 
-playRound(getComputersChoice(), getPlayersChoice());
-// compare choices against one another 
-// declare winner 
-// play game
+// playRound(getComputersChoice(), getPlayersChoice());
+
+// play a series of rounds
+function playGameSeries (){
+    let playerScore = 0;
+    let computerScore = 0;
+
+    for(let i = 0; i < 5; i++){
+      switch (playRound(getComputersChoice(), getPlayersChoice())){
+        case 'playerWins': 
+            playerScore++;
+            break;
+        case 'computerWins':
+            computerScore++;
+            break;        
+      }
+
+      console.log(`Player's score: ${playerScore}`);
+      console.log(`Computer's score ${computerScore}`);
+      console.log('__________________________________________');
+    }
+
+    if(playerScore === computerScore){
+        console.log(`It's a tie 🤠🤝🤖 let there be peace... for now`);
+        return;
+    } else if (playerScore > computerScore){
+        console.log(`You defeated the computer ${playerScore} to ${computerScore} 🎉🌎👨‍👩‍👧‍👦 the people rejoice!`)
+    } else {
+        console.log(`The computer has defeated you ${computerScore} to ${playerScore} ☠☠💥🌎 we're all doomed...`)
+    }
+}
+
+playGameSeries()
