@@ -11,11 +11,6 @@ function getComputersChoice () {
     return choices[randomNumber];
 }
 
-// getComputersChoice();
-// getComputersChoice();
-// getComputersChoice();
-
-
 // function to recieve the player's choice
 function getPlayersChoice () {
     let playersInput;
@@ -33,8 +28,6 @@ function getPlayersChoice () {
         return playersInput;
     };
 
-
-// getPlayersChoice();
 
 // Play a single round of rock paper scissors
 function playRound (computersChoice, playersChoice){
@@ -81,18 +74,18 @@ function getBest0fWhat (){
 
     // calculate the score to win
     scoreToWin = Math.ceil(userInput / 2);
-    
-    console.log(`--- Best of ${userInput} ---`);
+
+    console.log(`--- Best of ${userInput} ⚔ first to ${scoreToWin} wins... ---`);
     return scoreToWin;
 
 }
 
 // play a series of rounds
-function playGameSeries (bestOfWhat){
+function playGameSeries (scoreToWin){
     let playerScore = 0;
     let computerScore = 0;
 
-    for(let i = 0; i < 5; i++){
+    while(playerScore < scoreToWin && computerScore < scoreToWin){
       switch (playRound(getComputersChoice(), getPlayersChoice())){
         case 'playerWins': 
             playerScore++;
@@ -103,18 +96,15 @@ function playGameSeries (bestOfWhat){
       }
 
       console.log(`Player's score: ${playerScore}`);
-      console.log(`Computer's score ${computerScore}`);
+      console.log(`Computer's score: ${computerScore}`);
       console.log('__________________________________________');
     }
 
-    if(playerScore === computerScore){
-        console.log(`It's a tie 🤠🤝🤖 let there be peace... for now`);
-        return;
-    } else if (playerScore > computerScore){
+   if (playerScore > computerScore){
         console.log(`You defeated the computer ${playerScore} to ${computerScore} 🎉🌎👨‍👩‍👧‍👦 the people rejoice!`)
     } else {
         console.log(`The computer has defeated you ${computerScore} to ${playerScore} ☠☠💥🌎 we're all doomed...`)
     }
 }
 
-playGameSeries()
+playGameSeries(getBest0fWhat());
