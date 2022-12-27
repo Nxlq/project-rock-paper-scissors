@@ -3,6 +3,12 @@ both players choose between a rock, paper, or scissors
 choices are compared against one another to decide the winner
 rock beats scissors, paper beats rock, scissors beats paper
 winner is declared */
+const buttons = document.querySelectorAll('button')
+
+buttons.forEach(button => button.addEventListener('click', () => {
+    playRound(getComputersChoice(), button.id)
+}))
+
 
 // function to generate the computer's choice
 function getComputersChoice () {
@@ -33,7 +39,8 @@ function getPlayersChoice () {
 function playRound (computersChoice, playersChoice){
     // if there is no input
     if(!computersChoice || !playersChoice) return;
-
+    
+    console.log('__________________________________________');
     console.log(`computer's choice: ${computersChoice}`);
     console.log(`your choice: ${playersChoice}`);
 
@@ -48,7 +55,7 @@ function playRound (computersChoice, playersChoice){
     playersChoice === 'paper' && computersChoice === 'scissors' || 
     playersChoice === 'scissors' && computersChoice === 'rock') {
 
-        console.log(`You lose 🤣🤣 ${computersChoice} beats ${playersChoice} 🤡🤡🤡🤡`)
+        console.log(`You lose 🤣🤣 ${computersChoice} beats ${playersChoice} 🤡🤡🤡🤡`);
         return 'computerWins';
     };
 
@@ -60,6 +67,7 @@ function playRound (computersChoice, playersChoice){
 // playRound(getComputersChoice(), getPlayersChoice());
 
 // prompt player to choose between a best of 1, 3, 5, or 7
+/*
 function getBest0fWhat (){
     let userInput;
     let scoreToWin;
@@ -79,6 +87,7 @@ function getBest0fWhat (){
     return scoreToWin;
 
 }
+*/
 
 // play a series of rounds
 function playGameSeries (scoreToWin){
@@ -107,4 +116,3 @@ function playGameSeries (scoreToWin){
     }
 }
 
-playGameSeries(getBest0fWhat());
