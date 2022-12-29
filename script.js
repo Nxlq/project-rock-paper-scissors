@@ -9,11 +9,21 @@ const promptText = document.querySelector('.prompt-text');
 const yourChoiceText = document.createElement('p');
 const cockyNerdsChoice = document.createElement('p');
 const resultsText = document.createElement('p');
+const yourScore = document.querySelector('.your-score');
+const nerdsScore = document.querySelector('.nerds-score');
+const body = document.querySelector('body');
+
+let playersChoice;
+let playerScore = 0;
+let computerScore = 0;
+
+;
 
 
 // play a round of r p s whenever a weapon button is clicked
 buttons.forEach(button => button.addEventListener('click', () => {
-    playRound(getComputersChoice(), button.id)
+    playersChoice = button.id;
+    playGameSeries();
 }));
 
 
@@ -24,7 +34,8 @@ function getComputersChoice () {
     return choices[randomNumber];
 };
 
-// function to recieve the player's choice
+/*
+// function to recieve the player's choice via prompt
 function getPlayersChoice () {
     let playersInput;
 
@@ -40,6 +51,7 @@ function getPlayersChoice () {
         // once it is valid then return the players choice
         return playersInput;
     };
+*/
 
 function addTextContent (el, string){
     el.textContent += string;
@@ -97,7 +109,7 @@ function playRound (computersChoice, playersChoice){
 
     // if the player wins
     console.log(`You win 🥳🥳 ${playersChoice} beats ${computersChoice}`);
-    setTimeout(addTextContent, 1400, resultsText, `Wait... that can't be right 😨 ${playersChoice} beats ${computersChoice}... I guess a chump can get lucky every once in a while. Go again.`);
+    setTimeout(addTextContent, 1400, resultsText, `Wait... that can't be right 😨 ${playersChoice} beats ${computersChoice}... I guess even a chump like you can get lucky every once in a while. Go again.`);
         setTimeout(function(){
             textContainer.appendChild(resultsText);
         }, 1400);
@@ -130,29 +142,36 @@ function getBest0fWhat (){
 */
 
 // play a series of rounds
-function playGameSeries (scoreToWin){
-    let playerScore = 0;
-    let computerScore = 0;
+function playGameSeries (){
 
-    while(playerScore < scoreToWin && computerScore < scoreToWin){
-      switch (playRound(getComputersChoice(), getPlayersChoice())){
+    if(!(playerScore < 5) || !(computerScore < 5)){
+        playerScore = 0;
+        computerScore = 0;
+    };
+
+    switch (playRound(getComputersChoice(), playersChoice)){
         case 'playerWins': 
             playerScore++;
             break;
         case 'computerWins':
             computerScore++;
             break;        
-      }
+      };
 
+    setTimeout(function(){ 
+        yourScore.textContent = `Your Score: ${playerScore}`;
+        nerdsScore.textContent = `Cocky Nerds Score ${computerScore}`;
+    }, 1400);
+      
       console.log(`Player's score: ${playerScore}`);
       console.log(`Computer's score: ${computerScore}`);
       console.log('__________________________________________');
-    }
+    
 
-   if (playerScore > computerScore){
-        console.log(`You defeated the computer ${playerScore} to ${computerScore} 🎉🌎👨‍👩‍👧‍👦 the people rejoice!`)
-    } else {
-        console.log(`The computer has defeated you ${computerScore} to ${playerScore} ☠☠💥🌎 we're all doomed...`)
-    }
+//    if (playerScore > computerScore){
+//         console.log(`You defeated the computer ${playerScore} to ${computerScore} 🎉🌎👨‍👩‍👧‍👦 the people rejoice!`)
+//     } else {
+//         console.log(`The computer has defeated you ${computerScore} to ${playerScore} ☠☠💥🌎 we're all doomed...`)
+//     }
 }
 
