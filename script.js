@@ -12,20 +12,30 @@ const resultsText = document.createElement('p');
 const yourScore = document.querySelector('.your-score');
 const nerdsScore = document.querySelector('.nerds-score');
 const body = document.querySelector('body');
+const nerdsReaction = document.querySelector('.nerds-reaction');
+const game = document.querySelector('#game');
+const winScreen = document.querySelector('#win-screen');
+const lossScreen = document.querySelector('#loss-screen');
+const playerFinalWin = document.querySelector('.players-final-win');
+const playerFinalLoss = document.querySelector('.players-final-loss')
+const nerdFinalLoss = document.querySelector('.nerds-final-loss');
+const nerdFinalWin = document.querySelector('.nerds-final-win');
+
 
 let playersChoice;
 let playerScore = 0;
 let computerScore = 0;
 
-;
+
 
 
 // play a round of r p s whenever a weapon button is clicked
-buttons.forEach(button => button.addEventListener('click', () => {
-    playersChoice = button.id;
-    playGameSeries();
-}));
+buttons.forEach(button => button.addEventListener('click', playOnClick));
 
+function playOnClick(){
+    playersChoice = this.id;
+    playRoundWithScoreCount();
+}
 
 // function to generate the computer's choice
 function getComputersChoice () {
@@ -66,17 +76,17 @@ function playRound (computersChoice, playersChoice){
     cockyNerdsChoice.textContent = '';
     resultsText.textContent = '';
     
-    promptText.textContent = '🤓📣';
-    setTimeout(addTextContent, 300, promptText, 'ROCK! ...');
-    setTimeout(addTextContent, 600, promptText, 'PAPER! ...');
-    setTimeout(addTextContent, 900, promptText, 'SCISSORS! ...');
-    setTimeout(addTextContent, 1200, promptText, 'SHOOT!!!');
+    nerdsReaction.textContent = '🤓📣';
+    setTimeout(addTextContent, 300, nerdsReaction, 'ROCK! ...');
+    setTimeout(addTextContent, 600, nerdsReaction, 'PAPER! ...');
+    setTimeout(addTextContent, 900, nerdsReaction, 'SCISSORS! ...');
+    setTimeout(addTextContent, 1200, nerdsReaction, 'SHOOT!!!');
     setTimeout(function(){
         yourChoiceText.textContent = `You chose: ${playersChoice}`;
         textContainer.appendChild(yourChoiceText);
         cockyNerdsChoice.textContent = `Cocky Nerd chose: ${computersChoice}`;
         textContainer.appendChild(cockyNerdsChoice);
-    }, 1300);
+    }, 1450);
    
     
 
@@ -87,10 +97,9 @@ function playRound (computersChoice, playersChoice){
     // if there is a tie
     if (computersChoice === playersChoice){
         console.log(`Draw 😬 you both chose ${computersChoice}`)
-        setTimeout(addTextContent, 1400, resultsText, 'Draw! 🤓 I\'d recommend walking away while you still can...');
         setTimeout(function(){
-            textContainer.appendChild(resultsText);
-        }, 1400);
+            nerdsReaction.textContent = 'Draw! 🤓 I\'d recommend walking away while you still can...'
+        }, 1450);
         return;
     };
 
@@ -100,19 +109,17 @@ function playRound (computersChoice, playersChoice){
     playersChoice === 'scissors' && computersChoice === 'rock') {
 
         console.log(`You lose 🤣🤣 ${computersChoice} beats ${playersChoice} 🤡🤡🤡🤡`);
-        setTimeout(addTextContent, 1400, resultsText, `🤓📣 Nice choice bozo 🤣 ${computersChoice} beats ${playersChoice} you lose 🤣🤣🤣`);
         setTimeout(function(){
-            textContainer.appendChild(resultsText);
-        }, 1400);
+            nerdsReaction.textContent = `🤓📣 Nice choice bozo 🤣 ${computersChoice} beats ${playersChoice} you lose 🤣🤣🤣`
+        }, 1450)
         return 'computerWins';
     };
 
     // if the player wins
     console.log(`You win 🥳🥳 ${playersChoice} beats ${computersChoice}`);
-    setTimeout(addTextContent, 1400, resultsText, `Wait... that can't be right 😨 ${playersChoice} beats ${computersChoice}... I guess even a chump like you can get lucky every once in a while. Go again.`);
-        setTimeout(function(){
-            textContainer.appendChild(resultsText);
-        }, 1400);
+    setTimeout(function(){
+        nerdsReaction.textContent = `Wait... that can't be right 😨 ${playersChoice} beats ${computersChoice}... I guess even a chump like you can get lucky every once in a while. Go again.`
+    }, 1450)
     return 'playerWins';
 }
 
@@ -142,11 +149,17 @@ function getBest0fWhat (){
 */
 
 // play a series of rounds
-function playGameSeries (){
+function playRoundWithScoreCount (){
+    buttons.forEach(button => button.removeEventListener('click', playOnClick));
+    setTimeout(function(){
+        buttons.forEach(button => button.addEventListener('click', playOnClick));
+    }, 1400)
 
     if(!(playerScore < 5) || !(computerScore < 5)){
         playerScore = 0;
         computerScore = 0;
+        yourScore.textContent = `Your Score: 0`;
+        nerdsScore.textContent = `Cocky Nerds Score: 0`;
     };
 
     switch (playRound(getComputersChoice(), playersChoice)){
@@ -156,22 +169,38 @@ function playGameSeries (){
         case 'computerWins':
             computerScore++;
             break;        
-      };
+      };   
 
     setTimeout(function(){ 
         yourScore.textContent = `Your Score: ${playerScore}`;
-        nerdsScore.textContent = `Cocky Nerds Score ${computerScore}`;
+        nerdsScore.textContent = `Cocky Nerds Score: ${computerScore}`;
+        if(playerScore === 5){
+            game.classList.add('hidden');
+            winScreen.classList.remove('hidden');
+            playerFinalWin.textContent = `Your Score: ${playerScore}`;
+            nerdFinalLoss.textContent = `Nerds Score: ${computerScore}`;
+            playerFinalWin.classList.remove('hidden');
+            nerdFinalLoss.classList.remove('hidden');
+            
+        };
+        if(computerScore === 5){
+            game.classList.add('hidden');
+            lossScreen.classList.remove('hidden');
+            playerFinalLoss.textContent = `Your Score: ${playerScore}`;
+            nerdFinalWin.textContent = `Nerds Score: ${computerScore}`;
+            playerFinalLoss.classList.remove('hidden');
+            nerdFinalWin.classList.remove('hidden');
+        }
     }, 1400);
       
       console.log(`Player's score: ${playerScore}`);
       console.log(`Computer's score: ${computerScore}`);
       console.log('__________________________________________');
-    
-
 //    if (playerScore > computerScore){
 //         console.log(`You defeated the computer ${playerScore} to ${computerScore} 🎉🌎👨‍👩‍👧‍👦 the people rejoice!`)
 //     } else {
 //         console.log(`The computer has defeated you ${computerScore} to ${playerScore} ☠☠💥🌎 we're all doomed...`)
 //     }
 }
+
 
